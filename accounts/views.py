@@ -7,6 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from accounts.models import Accounts
 from accounts.serializers import AccountSerializer
 
+
 class AccountLogin(APIView):
     
     permission_classes = [AllowAny]

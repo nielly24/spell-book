@@ -1,15 +1,19 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from accounts.permissions import IsAdmin
 from roles.models import Roles
 from roles.serializers import RoleSerializer
 
-class RoleListCreateView(APIView):
+class RoleListView(APIView):
     def get(self, request):
         roles = Roles.objects.all()
         serializer = RoleSerializer(roles, many = True)
         return Response(serializer.data)
-
+        
+class RoleCreateView(APIView):
+    permission_classes = [IsAdmin]
 
     def post(self, request):
         serializer = RoleSerializer(data = request.data)
@@ -26,6 +30,7 @@ class RoleListCreateView(APIView):
         )
 
 class RoleDetailView(APIView):
+    permission_classes = [IsAdmin]
     def get_object(self, pk):
         try:
             return Roles.objects.get(pk=pk)
